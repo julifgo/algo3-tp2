@@ -5,7 +5,11 @@
 #include <math.h>
 #include <iostream>
 #include <sstream>
+#include <vector>
+#include "TiposBasicos.h"
+#include "Arreglo.h"
+#include "Lista.h"
 
-void UnaNuevaEsperanza ();
+void UnaNuevaEsperanza (aed2::Arreglo<aed3::Lista<std::pair<int,int> > > grafo);
 
 #endif /* ESPERANZA_H_ */
