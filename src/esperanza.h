@@ -10,6 +10,7 @@
 #include "Arreglo.h"
 #include "Lista.h"
 
-void UnaNuevaEsperanza (aed2::Arreglo<aed3::Lista<std::pair<int,int> > > grafo);
+struct Adyacentes;
+void UnaNuevaEsperanza (aed2::Arreglo<Adyacentes > grafo);
 
 #endif /* ESPERANZA_H_ */

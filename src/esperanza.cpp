@@ -1,14 +1,20 @@
 #include "esperanza.h"
 using namespace std;
 
+struct Adyacentes{
 
+	Adyacentes(int d, aed3::Lista<pair<int,int> > n):distance(d), nodos(n){}
+	int distance; //distance to root
+	aed3::Lista<pair<int,int> > nodos;  //Nodos adyacentes al indice de la posicion del arreglo
+
+};
 
 int main(){
 	
 	int N;
 	int M;
 	cin>>N>>M;
-	aed2::Arreglo<aed3::Lista<pair<int,int> > > grafo(N);
+	aed2::Arreglo<Adyacentes > grafo(N);
 
 	for(int i=0;i<M;i++){
 		int x;
@@ -16,14 +22,14 @@ int main(){
 		int especial;
 		cin>>x>>y>>especial;
 		if(!grafo.Definido(x)){
-			grafo.Definir(x, aed3::Lista<pair<int,int> >());
+			grafo.Definir(x, Adyacentes(0,aed3::Lista<pair<int,int> >()));
 		}
-		grafo[x].AgregarAtras(pair<int,int>(y,especial));
+		grafo[x].nodos.AgregarAtras(pair<int,int>(y,especial));
 
 		if(!grafo.Definido(y)){
-			grafo.Definir(y, aed3::Lista<pair<int,int> >());
+			grafo.Definir(y, Adyacentes(0,aed3::Lista<pair<int,int> >()));
 		}
-		grafo[y].AgregarAtras(pair<int,int>(x,especial));
+		grafo[y].nodos.AgregarAtras(pair<int,int>(x,especial));
 	}
 
 
@@ -33,10 +39,8 @@ int main(){
 }
 
 
-void UnaNuevaEsperanza (aed2::Arreglo<aed3::Lista<pair<int,int> > > grafo) {
-	/*cout<<"Nodo 0 tiene "<<grafo[0].Longitud()<<" aristas adyacentes"<<endl;
-	cout<<"Nodo 1 tiene "<<grafo[1].Longitud()<<" aristas adyacentes"<<endl;
-	cout<<"Nodo 2 tiene "<<grafo[2].Longitud()<<" aristas adyacentes"<<endl;*/
+void UnaNuevaEsperanza (aed2::Arreglo<Adyacentes > grafo) {
+	
 	
 }
 
