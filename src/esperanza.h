@@ -9,8 +9,9 @@
 #include "TiposBasicos.h"
 #include "Arreglo.h"
 #include "Lista.h"
+#include <queue>  
 
-struct Adyacentes;
-void UnaNuevaEsperanza (aed2::Arreglo<Adyacentes > grafo);
+struct Nodo;
+void UnaNuevaEsperanza (aed2::Arreglo<Nodo* > grafo);
 
 #endif /* ESPERANZA_H_ */

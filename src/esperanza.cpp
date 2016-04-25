@@ -1,11 +1,11 @@
 #include "esperanza.h"
 using namespace std;
 
-struct Adyacentes{
+struct Nodo{
 
-	Adyacentes(int d, aed3::Lista<pair<int,int> > n):distance(d), nodos(n){}
+	Nodo(int d, aed3::Lista<pair<int,int> > n):distance(d), adyacentes(n){}
 	int distance; //distance to root
-	aed3::Lista<pair<int,int> > nodos;  //Nodos adyacentes al indice de la posicion del arreglo
+	aed3::Lista<pair<int,int> > adyacentes;  //Nodos adyacentes al indice de la posicion del arreglo (el segundo int indica si es especial o no. ver de pasar a bool)
 
 };
 
@@ -14,7 +14,7 @@ int main(){
 	int N;
 	int M;
 	cin>>N>>M;
-	aed2::Arreglo<Adyacentes > grafo(N);
+	aed2::Arreglo<Nodo* > grafo(N);
 
 	for(int i=0;i<M;i++){
 		int x;
@@ -22,25 +22,46 @@ int main(){
 		int especial;
 		cin>>x>>y>>especial;
 		if(!grafo.Definido(x)){
-			grafo.Definir(x, Adyacentes(0,aed3::Lista<pair<int,int> >()));
+			grafo.Definir(x, new Nodo(100000,aed3::Lista<pair<int,int> >())); //VER ESE NUMERO
 		}
-		grafo[x].nodos.AgregarAtras(pair<int,int>(y,especial));
+		grafo[x]->adyacentes.AgregarAtras(pair<int,int>(y,especial));
 
 		if(!grafo.Definido(y)){
-			grafo.Definir(y, Adyacentes(0,aed3::Lista<pair<int,int> >()));
+			grafo.Definir(y, new Nodo(100000,aed3::Lista<pair<int,int> >()));
 		}
-		grafo[y].nodos.AgregarAtras(pair<int,int>(x,especial));
+		grafo[y]->adyacentes.AgregarAtras(pair<int,int>(x,especial));
 	}
 
 
 	UnaNuevaEsperanza(grafo);
 	
+	cout<<"Distance to "<<N-1<<": "<<grafo[N-1]->distance<<endl;
+
 	return 0;
 }
 
 
-void UnaNuevaEsperanza (aed2::Arreglo<Adyacentes > grafo) {
-	
+void UnaNuevaEsperanza (aed2::Arreglo<Nodo* > grafo) {
+	queue<Nodo*> q;
+	Nodo* nodoAux = grafo[0];
+	nodoAux->distance = 0; //entry point
+	q.push(nodoAux);
+	while (!q.empty())
+  	{
+  		Nodo* n = q.front(); //access next element
+  		q.pop(); //remove next element. VER CORRECGTITUD DE ESTO. HACE REMOVE PERO TIENE EL ACCESS ARRIOBA
+  		for (int i = 0; i < n->adyacentes.Longitud(); ++i)
+  		{
+  			pair<int,int> adj = n->adyacentes[i];
+  			Nodo* neighbour = grafo[adj.first];
+  			if (neighbour->distance > n->distance+1)
+  			{
+  				neighbour->distance = n->distance+1;
+  				q.push(neighbour);
+  			}
+  		}
+
+  	}
 	
 }
 
