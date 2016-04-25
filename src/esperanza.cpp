@@ -3,8 +3,9 @@ using namespace std;
 
 struct Nodo{
 
-	Nodo(int d, aed3::Lista<pair<int,int> > n):distance(d), adyacentes(n){}
+	Nodo(int d, aed3::Lista<pair<int,int> > n, int s):distance(d), adyacentes(n), special(s){}
 	int distance; //distance to root
+	int special; //1 if is special; 0 otherwise.
 	aed3::Lista<pair<int,int> > adyacentes;  //Nodos adyacentes al indice de la posicion del arreglo (el segundo int indica si es especial o no. ver de pasar a bool)
 
 };
@@ -22,12 +23,12 @@ int main(){
 		int especial;
 		cin>>x>>y>>especial;
 		if(!grafo.Definido(x)){
-			grafo.Definir(x, new Nodo(100000,aed3::Lista<pair<int,int> >())); //VER ESE NUMERO
+			grafo.Definir(x, new Nodo(100000,aed3::Lista<pair<int,int> >(),especial)); //VER ESE NUMERO
 		}
 		grafo[x]->adyacentes.AgregarAtras(pair<int,int>(y,especial));
 
 		if(!grafo.Definido(y)){
-			grafo.Definir(y, new Nodo(100000,aed3::Lista<pair<int,int> >()));
+			grafo.Definir(y, new Nodo(100000,aed3::Lista<pair<int,int> >(),especial));
 		}
 		grafo[y]->adyacentes.AgregarAtras(pair<int,int>(x,especial));
 	}
@@ -54,6 +55,7 @@ void UnaNuevaEsperanza (aed2::Arreglo<Nodo* > grafo) {
   		{
   			pair<int,int> adj = n->adyacentes[i];
   			Nodo* neighbour = grafo[adj.first];
+  			bool isSpecial = neighbour->special == 1;
   			if (neighbour->distance > n->distance+1)
   			{
   				neighbour->distance = n->distance+1;
