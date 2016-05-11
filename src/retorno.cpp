@@ -1,44 +1,49 @@
 #include "retorno.h"
+
 using namespace std;
 
 
-int main(){
+/*int main(){
 
 	ElRetornoDelJedi();
 
 	return 0;
-}
+}*/
 
 
-void ElRetornoDelJedi(vector<vector<int> > grilla, int h, int n, int m) {
-	vector<vector<pair<int, Direccion> > > Dic;
-	Dic.resize(grilla.size());
-	for(int i =0; i<Dic.size();i++){
-		Dic[i].resize(grilla[i].size());
+void ElRetornoDelJedi(int** grilla, int h, int n, int m){
+	pair<int, Direccion>** Dic;
+	Dic = new pair<int, Direccion>*[n];
+	for(int i =0; i<n;i++){
+		Dic[i] = new pair<int,Direccion>[m];
 	}
+	/*Dic.resize(n);
+	for(int i =0; i<Dic.size();i++){
+		Dic[i].resize(m);
+	}*/
 	pair<int, Direccion> p;
 	p.first = 0;
 	p.second = sinDireccion;
-	Dic[1][1] = p;
+	Dic[0][0] = p;
 
-	for(int i=2; i<n;i++){
+	for(int i=1; i<n;i++){
 		pair<int, Direccion> p1;
 		p1.second=izquierda;
-		p1.first = Dic[1][i-1].first + max(abs(grilla[1][i] - grilla[i-1][1]) - h);
-		Dic[i,1]= p1;
+		p1.first = Dic[0][i-1].first + max(abs(grilla[0][i] - grilla[i-1][0]) - h,0);
+		Dic[i][0]= p1;
 	}
 
-	for(int i=2; i<n;i++){
+	for(int i=1; i<n;i++){
 		pair<int, Direccion> p1;
 		p1.second=arriba;
-		p1.first = Dic[i-1][1].first + max(abs(grilla[i][1] - grilla[1][i-1]) - h);
-		Dic[1,i]= p1;
+		p1.first = Dic[i-1][0].first + max(abs(grilla[i][0] - grilla[0][i-1]) - h,0);
+		Dic[0][i]= p1;
 	}
 
-	for(int i=2; i<n;i++){
-		for(int j=2; j<n;j++){
-			if(min(Dic[j][i-1].first + max(abs(grilla[1][i] -grilla[1][i-1]) - h, 0) + max(abs(grilla[j][i]-grilla[j-1][i]) - h, 0)
-					== Dic[j][i-1].first + max(abs(grilla[j][i] - grilla[j][i-1])-h,0))){
+	for(int i=1; i<n;i++){
+		for(int j=1; j<n;j++){
+			if(min(Dic[j][i-1].first + max(abs(grilla[0][i] -grilla[0][i-1]) - h, 0), Dic[j-1][i].first + max(abs(grilla[j][i]-grilla[j-1][i]) - h, 0))
+					== Dic[j][i-1].first + max(abs(grilla[j][i] - grilla[j][i-1])-h,0)){
 				pair<int, Direccion> p1;
 				p1.second=arriba;
 				p1.first = Dic[j][i-1].first + max(abs(grilla[j][i]-grilla[j][i-1]) - h,0);
@@ -52,6 +57,39 @@ void ElRetornoDelJedi(vector<vector<int> > grilla, int h, int n, int m) {
 			}
 		}
 	}
+	for(int i=0; i<n; i++){
+		for(int j=0; j<m;j++){
+			cout<<Dic[i][j].first<<" ";
+		}
+		cout<<endl;
+	}
+
+
+	/*int i,j,C;
+	std::vector<std::string> camino;
+	C=0;
+	i=0;
+	j=0;
+
+	while(i+j<(n+m-2)){
+			if(Dic[i][j].second == arriba){
+				camino.push_back("Y");
+				j++;
+				C+=Dic[i][j].first;
+			}else{
+				camino.push_back("X");
+				i++;
+				C+=Dic[i][j].first;
+			}
+	}
+
+
+	cout<<C<<endl;
+	for(int p=0;p<camino.size();p++){
+		cout<<camino[p]<<endl;
+	}*/
+
+	delete[] Dic;
 }
 
 
