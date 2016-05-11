@@ -1,5 +1,12 @@
-#ifndef CONTRAATACA_H_
-#define CONTRAATACA_H_
+/*
+ * ElImperioContraataca.h
+ *
+ *  Created on: 24/4/2016
+ *      Author: agustin
+ */
+
+#ifndef ELIMPERIOCONTRAATACA_H_
+#define ELIMPERIOCONTRAATACA_H_
 
 #include <iostream>
 #include<cstdio>
@@ -20,17 +27,25 @@ struct Arista{
 		this->nodoB=b;
 		this->peso=peso;
 	}
+
+	Arista(){
+		this->nodoA=0;
+		this->nodoB=0;
+		this->peso=0;
+	}
 };
 
-vector<int> padre;
-vector<int> altura;
 
-void elImperioContraataca(int cn, vector< vector<int> > ady);
+
+void elImperioContraataca(int cn, int m, vector< Arista > ady);
 void init(int n);
 int find(int x);
 void unir(int x, int y);
-void Merge(vector<Arista>& A,vector<Arista>& B, vector<Arista>& C);
-void MergeSort(vector<Arista>& A);
+void MergePeso(Arista* A, int low, int pivot,  int high);
+void MergeSortPeso(Arista* A, int size);
 
 
-#endif /* CONTRAATACA_H_ */
+
+
+
+#endif /* ELIMPERIOCONTRAATACA_H_ */
