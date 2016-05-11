@@ -1,81 +1,121 @@
-#include "contraataca.h"
+/*
+ * ElImperioContraataca.cpp
+ *
+ *  Created on: 24/4/2016
+ *      Author: agustin
+ */
+
+#include "ElImperioContraataca.h"
+#include <queue>
 
 using namespace std;
 
-/*// Declaraciones en el archivo .h
-int cn; //cantidad de nodos
-vector< vector<int> > ady; //matriz de adyacencia*/
+vector<int> padre;
+vector<int> altura;
+
+
 
 // Devuelve la matriz de adyacencia del árbol mínimo.
-void elImperioContraataca(int cn, vector< vector<int> > ady){
-    vector< vector<int> > adyacencia = ady;
-    vector<Arista> aristas;
+void elImperioContraataca(int cn, int m, vector< Arista > ady){
+
+    Arista *aristas;
     vector<Arista> solucion;
     int pesoTotal=0;
 
-    for(int i = 0; i < cn; i++){
-    	for(int j = i+1; j < cn; j++){
-    		if(i!=j){
-    			Arista a(i,j,adyacencia[i][j]);
-    			aristas.push_back(a);
-    		}
-    	}
+    aristas = new Arista[m];
+
+
+    for(int i=0; i<m;i++){
+    	aristas[i]=ady[i];
     }
 
     init(cn);
-    MergeSort(aristas);
-    vector<int> solucionParaMostrar(cn,0);
+    MergeSortPeso(aristas,m);
+    vector<vector<int> > solucionParaMostrar;
+    solucionParaMostrar.resize(cn);
 
-    for(int i=0 ; i<aristas.size() ; i++){
-    	if(find(aristas[i].nodoA != aristas[i].nodoB)){
+    for(int i=0 ; i<m ; i++){
+    	if(find(aristas[i].nodoA) != find(aristas[i].nodoB)){
     		solucion.push_back(aristas[i]);
-    		solucionParaMostrar[aristas[i].nodoB]=aristas[i].nodoA;
+    		solucionParaMostrar[aristas[i].nodoB].push_back(aristas[i].nodoA);
+    		solucionParaMostrar[aristas[i].nodoA].push_back(aristas[i].nodoB);
     		pesoTotal += aristas[i].peso;
     		unir(aristas[i].nodoA,aristas[i].nodoB);
     	}
     }
 
+    vector<bool> visitados(cn,false);
+    visitados[0]=true;
+    vector<int> arbol;
+    arbol.resize(cn,0);
+
+    std::queue<int> bfsq;
+    bfsq.push(0);
+
+    while(!bfsq.empty())
+    {
+      int u=bfsq.front();
+      bfsq.pop();
+      //Now look at all neighbours of u
+      for(int i=0;i<solucionParaMostrar[u].size();i++)
+      {
+        int v=solucionParaMostrar[u][i];
+        //If v has not been processed yet, do that now
+        if(!visitados[v])
+        {
+          visitados[v]=true;
+          arbol[v]=u;
+          bfsq.push(v);
+        }
+      }
+    }
+
 
     cout<<pesoTotal<<endl;
+    for(int i=1; i<arbol.size(); i++){
+    	cout<<arbol[i]<<endl;
+    }
 
-
+    delete[] aristas;
 
 }
 
-void Merge(vector<Arista>& A,vector<Arista>& B, vector<Arista>& C){
-	int ia, ib, ic;
-	ia=0;
-	ib=0;
-	ic=0;
+void MergePeso(Arista* A, int size1, Arista* B,  int size2, Arista C[] ){
+	int i1, i2, i3;
+	    i1 = 0; i2 = 0; i3 = 0;
+	    /* while both lists are non-empty */
+	    while (i1 < size1 && i2 < size2) {
+	        if (A[i1].peso < B[i2].peso) {
+	            C[i3++] = A[i1++];
+	        }
+	        else {
+	            C[i3++] = B[i2++];
+	        }
+	    }
+	    while (i1 < size1) {
+	        /* copy remainder of list1 */
+	        C[i3++] = A[i1++];
+	    }
+	    while (i2 < size2) {
+	        /* copy remainder of list2 */
+	        C[i3++] = B[i2++];
+	    }
+}
 
-	for(ia; ia<A.size(); ia++){
-		if(ib<B.size() && ( ic>=C.size() || B[ib].peso<C[ic].peso)){
-			A[ia]=B[ib];
-			ib++;
-		}else{
-			A[ia]=C[ic];
-			ic++;
-		}
+void MergeSortPeso(Arista* A, int size){
+	Arista temp[size];
+	int mid;
+	if(size >= 2){
+		 mid = size / 2;
+		 MergeSortPeso(A, mid);
+		 MergeSortPeso(A + mid, size - mid);
+		 MergePeso(A, mid, A + mid, size - mid, temp);
+		 for (int i = 0; i < size; i++) {
+		    A[i] = temp[i];
+		 }
 	}
 }
 
-void MergeSort(vector<Arista>& A){
-	if(A.size()>1){
-		int n = A.size()/2;
-		vector<Arista> B;
-		vector<Arista> C;
-		for(int i=0; i<A.size(); i++){
-			if(i<n){
-				B.push_back(A[i]);
-			}else{
-				C.push_back(A[i]);
-			}
-		}
-		MergeSort(B);
-		MergeSort(C);
-		Merge(A,B,C);
-	}
-}
 
 void init(int n){
 	altura.resize(n);
