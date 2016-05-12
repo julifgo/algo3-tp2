@@ -17,7 +17,7 @@ void ElRetornoDelJedi(int** grilla, int h, int n, int m){
 	for(int i =0; i<n;i++){
 		Dic[i] = new pair<int,Direccion>[m];
 	}
-	for(int i=0; i<m; i++){
+	/*for(int i=0; i<m; i++){
 		for(int j=0; j<n;j++){
 			cout<<grilla[j][i]<<" ";
 		}
@@ -64,7 +64,7 @@ void ElRetornoDelJedi(int** grilla, int h, int n, int m){
 			}
 		}
 	}
-	for(int i=0; i<m; i++){
+	/*for(int i=0; i<m; i++){
 		for(int j=0; j<n;j++){
 			cout<<Dic[j][i].first<<" ";
 		}
@@ -76,7 +76,7 @@ void ElRetornoDelJedi(int** grilla, int h, int n, int m){
 			cout<<Dic[j][i].second<<" ";
 		}
 		cout<<endl;
-	}
+	}*/
 
 
 	int i,j,C;
@@ -88,19 +88,25 @@ void ElRetornoDelJedi(int** grilla, int h, int n, int m){
 	while(i!=0 || j!=0){
 			if(Dic[i][j].second == arriba){
 				camino.push_back("Y");
+				//C+=Dic[i][j].first;
 				j--;
-				C+=Dic[i][j].first;
+				//C+=Dic[i][j].first;
 			}else{
 				camino.push_back("X");
+				//C+=Dic[i][j].first;
 				i--;
-				C+=Dic[i][j].first;
+				//C+=Dic[i][j].first;
 			}
 	}
 
 
-	cout<<C<<endl;
-	for(int p=0;p<camino.size();p++){
+	cout<<Dic[n-1][m-1].first<<endl;
+	/*for(int p=0;p<camino.size();p++){
 		cout<<camino[p]<<endl;
+	}*/
+	while(camino.size()>0) {
+		cout<< camino.back() <<endl;
+		camino.pop_back();
 	}
 
 	delete[] Dic;
