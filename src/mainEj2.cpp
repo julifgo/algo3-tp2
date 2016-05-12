@@ -10,8 +10,7 @@
 #include<cstdio>
 #include <vector>
 #include <limits>
-#include <fstream>
-#include "ElImperioContraataca.h"
+#include "contraataca.h"
 
 using namespace std;
 
