@@ -9,6 +9,7 @@
 #include "TiposBasicos.h"
 #include "Arreglo.h"
 #include "Lista.h"
+#include <limits>
 #include <queue>  
 
 struct Nodo;
