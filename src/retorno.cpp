@@ -29,20 +29,20 @@ void ElRetornoDelJedi(int** grilla, int h, int n, int m){
 	for(int i=1; i<n;i++){
 		pair<int, Direccion> p1;
 		p1.second=izquierda;
-		p1.first = Dic[0][i-1].first + max(abs(grilla[0][i] - grilla[i-1][0]) - h,0);
+		p1.first = Dic[i-1][0].first + max(abs(grilla[i][0] - grilla[i-1][0]) - h,0);
 		Dic[i][0]= p1;
 	}
 
 	for(int i=1; i<n;i++){
 		pair<int, Direccion> p1;
 		p1.second=arriba;
-		p1.first = Dic[i-1][0].first + max(abs(grilla[i][0] - grilla[0][i-1]) - h,0);
+		p1.first = Dic[0][i-1].first + max(abs(grilla[0][i] - grilla[0][i-1]) - h,0);
 		Dic[0][i]= p1;
 	}
 
-	for(int i=1; i<n;i++){
+	for(int i=1; i<m;i++){
 		for(int j=1; j<n;j++){
-			if(min(Dic[j][i-1].first + max(abs(grilla[0][i] -grilla[0][i-1]) - h, 0), Dic[j-1][i].first + max(abs(grilla[j][i]-grilla[j-1][i]) - h, 0))
+			if(min(Dic[j][i-1].first + max(abs(grilla[j][i] -grilla[i][i-1]) - h, 0), Dic[j-1][i].first + max(abs(grilla[j][i]-grilla[j-1][i]) - h, 0))
 					== Dic[j][i-1].first + max(abs(grilla[j][i] - grilla[j][i-1])-h,0)){
 				pair<int, Direccion> p1;
 				p1.second=arriba;
@@ -57,15 +57,15 @@ void ElRetornoDelJedi(int** grilla, int h, int n, int m){
 			}
 		}
 	}
-	for(int i=0; i<n; i++){
-		for(int j=0; j<m;j++){
-			cout<<Dic[i][j].first<<" ";
+	/*for(int i=0; i<m; i++){
+		for(int j=0; j<n;j++){
+			cout<<Dic[j][i].first<<" ";
 		}
 		cout<<endl;
-	}
+	}*/
 
 
-	/*int i,j,C;
+	int i,j,C;
 	std::vector<std::string> camino;
 	C=0;
 	i=0;
@@ -87,7 +87,7 @@ void ElRetornoDelJedi(int** grilla, int h, int n, int m){
 	cout<<C<<endl;
 	for(int p=0;p<camino.size();p++){
 		cout<<camino[p]<<endl;
-	}*/
+	}
 
 	delete[] Dic;
 }
