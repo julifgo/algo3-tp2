@@ -69,7 +69,7 @@ ej2 getEj2RandomInstance(int n, int h){
 return ejercicio2;
 }
 
-ej1 getEj1RandomInstance(int N, int h){
+ej1 getEj1RandomInstanceCompleto(int N, int h){
 
 	ej1 ejercicio1;
 	ejercicio1.n=N;
@@ -152,6 +152,250 @@ ej1 getEj1RandomInstance(int N, int h){
 		}
 		y++;
 	}
+	ejercicio1.grafo = grafo;
+	return ejercicio1;
+}
+
+ej1 getEj1RandomInstanceCamino(int N, int h){
+
+	ej1 ejercicio1;
+	ejercicio1.n=N;
+	int M =N+1;
+	aed2::Arreglo<Nodo* > grafo(N*3);
+	srand(h);
+
+	int x=0;
+	int y=1;
+	int cantEspeciales=0;
+	for(int i=0;i<M;i++){
+		int especial;
+		especial=rand()%10;
+		if(especial==9){
+			especial=1;
+			cantEspeciales++;
+		}else{
+			especial=0;
+		}
+
+		if((i==M-1) && (cantEspeciales==0)){
+			especial=1;
+		}
+
+		if(!grafo.Definido(x)){
+			grafo.Definir(x, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),x));
+		}
+		grafo[x]->adyacentes.AgregarAtras(y);
+
+		if(!grafo.Definido(y)){
+			grafo.Definir(y, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),y));
+		}
+
+		grafo[y]->adyacentes.AgregarAtras(x);
+
+		if(!grafo.Definido(x+N)){
+			grafo.Definir(x+N, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),x));
+		}
+		grafo[x+N]->adyacentes.AgregarAtras(y+N);
+
+		if(!grafo.Definido(y+N)){
+			grafo.Definir(y+N, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),y));
+		}
+
+		grafo[y+N]->adyacentes.AgregarAtras(x+N);
+
+		if(!grafo.Definido(x+N*2)){
+			grafo.Definir(x+N*2, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),x));
+		}
+		grafo[x+N*2]->adyacentes.AgregarAtras(y+N*2);
+
+		if(!grafo.Definido(y+N*2)){
+			grafo.Definir(y+N*2, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),y));
+		}
+
+		grafo[y+N*2]->adyacentes.AgregarAtras(x+N*2);
+
+		if(especial){
+			grafo[x]->adyacentes.AgregarAtras(y+N);
+			grafo[y+N]->adyacentes.AgregarAtras(x);
+
+			grafo[y]->adyacentes.AgregarAtras(x+N);
+			grafo[x+N]->adyacentes.AgregarAtras(y);
+
+			grafo[x+N]->adyacentes.AgregarAtras(y+N*2);
+			grafo[y+N*2]->adyacentes.AgregarAtras(x+N);
+
+			grafo[y+N]->adyacentes.AgregarAtras(x+N*2);
+			grafo[x+N*2]->adyacentes.AgregarAtras(y+N);
+
+			grafo[y]->adyacentes.AgregarAtras(x+N);
+			grafo[x+N]->adyacentes.AgregarAtras(y);
+
+			grafo[x+N]->adyacentes.AgregarAtras(y+N*2);
+			grafo[y+N*2]->adyacentes.AgregarAtras(x+N);
+		}
+		y++;
+		x++;
+	}
+	ejercicio1.grafo = grafo;
+	return ejercicio1;
+}
+
+ej1 getEj1RandomInstance(int N,int M, int h){
+
+	ej1 ejercicio1;
+	ejercicio1.n=N;
+	//int M =((N*(N-1))/2);
+	aed2::Arreglo<Nodo* > grafo(N*3);
+	srand(h);
+
+	int x=0;
+	int y=1;
+	int cantEspeciales=0;
+	for(int i=0;i<N-1;i++){
+		int especial;
+		especial=rand()%10;
+		if(especial==9){
+			especial=1;
+			cantEspeciales++;
+		}else{
+			especial=0;
+		}
+
+		if(M==N-1){
+			especial=1;
+		}
+
+		if(!grafo.Definido(x)){
+			grafo.Definir(x, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),x));
+		}
+		grafo[x]->adyacentes.AgregarAtras(y);
+
+		if(!grafo.Definido(y)){
+			grafo.Definir(y, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),y));
+		}
+
+		grafo[y]->adyacentes.AgregarAtras(x);
+
+		if(!grafo.Definido(x+N)){
+			grafo.Definir(x+N, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),x));
+		}
+		grafo[x+N]->adyacentes.AgregarAtras(y+N);
+
+		if(!grafo.Definido(y+N)){
+			grafo.Definir(y+N, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),y));
+		}
+
+		grafo[y+N]->adyacentes.AgregarAtras(x+N);
+
+		if(!grafo.Definido(x+N*2)){
+			grafo.Definir(x+N*2, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),x));
+		}
+		grafo[x+N*2]->adyacentes.AgregarAtras(y+N*2);
+
+		if(!grafo.Definido(y+N*2)){
+			grafo.Definir(y+N*2, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),y));
+		}
+
+		grafo[y+N*2]->adyacentes.AgregarAtras(x+N*2);
+
+		if(especial){
+			grafo[x]->adyacentes.AgregarAtras(y+N);
+			grafo[y+N]->adyacentes.AgregarAtras(x);
+
+			grafo[y]->adyacentes.AgregarAtras(x+N);
+			grafo[x+N]->adyacentes.AgregarAtras(y);
+
+			grafo[x+N]->adyacentes.AgregarAtras(y+N*2);
+			grafo[y+N*2]->adyacentes.AgregarAtras(x+N);
+
+			grafo[y+N]->adyacentes.AgregarAtras(x+N*2);
+			grafo[x+N*2]->adyacentes.AgregarAtras(y+N);
+
+			grafo[y]->adyacentes.AgregarAtras(x+N);
+			grafo[x+N]->adyacentes.AgregarAtras(y);
+
+			grafo[x+N]->adyacentes.AgregarAtras(y+N*2);
+			grafo[y+N*2]->adyacentes.AgregarAtras(x+N);
+		}
+		y++;
+		x++;
+	}
+	for(int i=0;i<M-(N-1);i++){
+
+		if(x=y+1 || y=x+1){
+			y++;
+		}
+		if(y==x){
+			y=0;
+			x++;
+		}
+			int especial;
+			especial=rand()%10;
+			if(especial==9){
+				especial=1;
+				cantEspeciales++;
+			}else{
+				especial=0;
+			}
+
+			if((i==M-1) && (cantEspeciales==0)){
+				especial=1;
+			}
+
+			if(!grafo.Definido(x)){
+				grafo.Definir(x, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),x));
+			}
+			grafo[x]->adyacentes.AgregarAtras(y);
+
+			if(!grafo.Definido(y)){
+				grafo.Definir(y, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),y));
+			}
+
+			grafo[y]->adyacentes.AgregarAtras(x);
+
+			if(!grafo.Definido(x+N)){
+				grafo.Definir(x+N, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),x));
+			}
+			grafo[x+N]->adyacentes.AgregarAtras(y+N);
+
+			if(!grafo.Definido(y+N)){
+				grafo.Definir(y+N, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),y));
+			}
+
+			grafo[y+N]->adyacentes.AgregarAtras(x+N);
+
+			if(!grafo.Definido(x+N*2)){
+				grafo.Definir(x+N*2, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),x));
+			}
+			grafo[x+N*2]->adyacentes.AgregarAtras(y+N*2);
+
+			if(!grafo.Definido(y+N*2)){
+				grafo.Definir(y+N*2, new Nodo(numeric_limits<int>::max(),aed3::Lista<int>(),y));
+			}
+
+			grafo[y+N*2]->adyacentes.AgregarAtras(x+N*2);
+
+			if(especial){
+				grafo[x]->adyacentes.AgregarAtras(y+N);
+				grafo[y+N]->adyacentes.AgregarAtras(x);
+
+				grafo[y]->adyacentes.AgregarAtras(x+N);
+				grafo[x+N]->adyacentes.AgregarAtras(y);
+
+				grafo[x+N]->adyacentes.AgregarAtras(y+N*2);
+				grafo[y+N*2]->adyacentes.AgregarAtras(x+N);
+
+				grafo[y+N]->adyacentes.AgregarAtras(x+N*2);
+				grafo[x+N*2]->adyacentes.AgregarAtras(y+N);
+
+				grafo[y]->adyacentes.AgregarAtras(x+N);
+				grafo[x+N]->adyacentes.AgregarAtras(y);
+
+				grafo[x+N]->adyacentes.AgregarAtras(y+N*2);
+				grafo[y+N*2]->adyacentes.AgregarAtras(x+N);
+			}
+			y++;
+		}
 	ejercicio1.grafo = grafo;
 	return ejercicio1;
 }
